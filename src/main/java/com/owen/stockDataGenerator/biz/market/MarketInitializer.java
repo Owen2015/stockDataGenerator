@@ -22,31 +22,31 @@ public class MarketInitializer {
 		List<Stock> stocks=new ArrayList<Stock>();
 		Stock s1=new Stock();
 		s1.setId(0L);
-		s1.setName("gu0");
+		s1.setName("stock0");
 		s1.setPrice(100D);
 		stocks.add(s1);
 		
 		Stock s2=new Stock();
 		s2.setId(1L);
-		s2.setName("gu1");
+		s2.setName("stock1");
 		s2.setPrice(200D);
 		stocks.add(s2);
 		
 		Stock s3=new Stock();
 		s3.setId(2L);
-		s3.setName("gu2");
+		s3.setName("stock2");
 		s3.setPrice(300D);
 		stocks.add(s3);
 		
 		Stock s4=new Stock();
 		s4.setId(3L);
-		s4.setName("gu3");
+		s4.setName("stock3");
 		s4.setPrice(400D);
 		stocks.add(s4);
 		
 		Stock s5=new Stock();
 		s5.setId(4L);
-		s5.setName("gu4");
+		s5.setName("stock4");
 		s5.setPrice(500D);
 		stocks.add(s5);
 		

@@ -2,10 +2,11 @@ package com.owen.stockDataGenerator.model.market;
 
 
 
-public class Order implements Comparable<Order>{
+public class Order{
 
 	private Long id;
 	private Long stockId;
+	private String stockName;
 	private Long investorId;
 	private Double price;
 	private Long share;
@@ -50,8 +51,14 @@ public class Order implements Comparable<Order>{
 	public void setType(Integer type) {
 		this.type = type;
 	}
+	public String getStockName() {
+		return stockName;
+	}
+	public void setStockName(String stockName) {
+		this.stockName = stockName;
+	}
 	
-	@Override
+/*	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -95,7 +102,7 @@ public class Order implements Comparable<Order>{
 			System.out.println(e.toString());
 		return (Integer) null;	
 		}
-	}
+	}*/
 
 	
 	

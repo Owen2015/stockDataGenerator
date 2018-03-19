@@ -27,6 +27,8 @@ public class OrderHandler implements Runnable{
 				
 				tradeBoardElement.setStockId(buyOrder.getStockId());
 				tradeBoardElement.setStockPrice((buyOrder.getPrice()+sellOrder.getPrice())/2);
+				tradeBoardElement.setVolume(buyOrder.getShare());
+				tradeBoardElement.setStockName(buyOrder.getStockName());
 				buyOrders.poll();
 				sellOrders.poll();
 				

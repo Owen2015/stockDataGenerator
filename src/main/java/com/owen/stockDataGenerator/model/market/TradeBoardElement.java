@@ -5,7 +5,7 @@ public class TradeBoardElement {
 	private Long stockId;
 	private String stockName;
 	private Double stockPrice;
-	private Long exchangeVolume;
+	private Long volume;
 	public Long getStockId() {
 		return stockId;
 	}
@@ -24,12 +24,13 @@ public class TradeBoardElement {
 	public void setStockPrice(Double stockPrice) {
 		this.stockPrice = stockPrice;
 	}
-	public Long getExchangeVolume() {
-		return exchangeVolume;
+	public Long getVolume() {
+		return volume;
 	}
-	public void setExchangeVolume(Long exchangeVolume) {
-		this.exchangeVolume = exchangeVolume;
+	public void setVolume(Long volume) {
+		this.volume = volume;
 	}
+
 	
 	
 }

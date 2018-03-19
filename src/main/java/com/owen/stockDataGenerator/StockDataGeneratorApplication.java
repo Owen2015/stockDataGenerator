@@ -1,28 +1,19 @@
 package com.owen.stockDataGenerator;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.owen.stockDataGenerator.biz.market.MarketRunner;
 import com.owen.stockDataGenerator.model.market.TradeBoardElement;
 import com.owen.stockDataGenerator.utils.JsonUtil;
-import com.owen.stockDataGenerator.ws.Client;
 import com.owen.stockDataGenerator.ws.ClientFacade;
-import com.owen.stockDataGenerator.ws.Message;
+
 
 @SpringBootApplication
 public class StockDataGeneratorApplication {
@@ -43,13 +34,7 @@ public class StockDataGeneratorApplication {
 		uri="ws://localhost:3000/receiver";
 		try {
 			client.connect(uri);
-			Date d;
-			SimpleDateFormat smt=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			while(true) {		
-				d=new Date();
-				Message msg=new Message();
-				msg.setTopic("test");
-				msg.setContent(smt.format(d));
 				client.sendText(JsonUtil.toJson(tradeBoard));
 				Thread.sleep(1000L);
 			}

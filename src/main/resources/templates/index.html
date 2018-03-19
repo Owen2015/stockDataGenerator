@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+</head>
+<body>
+<h1>WebSocket</h1>
+<div class="param">
+<span>ws uri</span> <input type="text" id="uri" class="input"/>
+</div>
+<div class="sendText">
+<span> message</span> <input type="text" id="message" class="message"/>
+</div>
+<div class="command">
+<input type="button" id="connect" action="" value="connect" onclick="connect()"/>
+<input type="button" id="send" value="send"  onclick="send()"/>
+<input type="button" id="close" value="close" onclick="close()" />
+ <div id="result"></div>
+</div>
+<!-- <p th:text="'Hello, index: ' + ${name} + '!'" /> -->
+<script src="/js/jquery.js"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>

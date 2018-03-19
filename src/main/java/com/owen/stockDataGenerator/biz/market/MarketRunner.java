@@ -19,42 +19,15 @@ public class MarketRunner implements Runnable {
 	}
 
 
-
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		Market market=new Market();
 		market=MarketInitializer.init(market);
 		
-		Queue<Order> buyOrders= new PriorityBlockingQueue<Order>(1000,new Comparator<Order>() {
-
-			@Override
-			public int compare(Order arg0, Order arg1) {
-				// TODO Auto-generated method stub
-				if(arg0.getPrice()<arg1.getPrice()) return 1;
-				else if(arg0.getPrice()>arg1.getPrice()) return -1;
-				else return 0;
-			}});
-		
-		//Queue<Order> synSellOrders=new PriorityBlockingQueue<Order>(Collections.reverseOrder());
-		
-		Queue<Order> sellOrders= new PriorityBlockingQueue<Order>(1000,new Comparator<Order>() {
-
-			@Override
-			public int compare(Order arg0, Order arg1) {
-				// TODO Auto-generated method stub
-				if(arg0.getPrice()<arg1.getPrice()) return -1;
-				else if(arg0.getPrice()>arg1.getPrice()) return 1;
-				else return 0;
-			}});
-		
-
-		Thread buyOrderGenerator=new Thread(new OrderGenerator(buyOrders,0));
-		Thread sellOrderGenerator=new Thread(new OrderGenerator(sellOrders,1));
-		
-		buyOrderGenerator.start();
-		sellOrderGenerator.start();
-		
+		Queue<Order> buyOrders= createPriorityBlockQueue(1,-1);
+		Queue<Order> sellOrders= createPriorityBlockQueue(-1,1);
+		generateOrder(buyOrders,sellOrders);
 		
 		Order buyOrder;
 		Order sellOrder;
@@ -90,7 +63,6 @@ public class MarketRunner implements Runnable {
 	   (1,-1) means descendant order, use for buy order
 	 */
 	
-	
 	private Queue<Order> createPriorityBlockQueue(int i,int j) {
 		return new PriorityBlockingQueue<Order>(1000,new Comparator<Order>() {
 
@@ -104,8 +76,19 @@ public class MarketRunner implements Runnable {
 
 	}
 	
-	private void generateOrder() {
+	private void generateOrder(Queue<Order> buyOrders,Queue<Order> sellOrders) {
 		
+		Thread buyOrderGenerator=new Thread(new OrderGenerator(buyOrders,0));
+		Thread sellOrderGenerator=new Thread(new OrderGenerator(sellOrders,1));
+		
+		buyOrderGenerator.start();
+		sellOrderGenerator.start();
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

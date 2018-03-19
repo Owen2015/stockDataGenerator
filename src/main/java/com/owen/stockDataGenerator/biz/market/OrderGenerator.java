@@ -14,16 +14,19 @@ public class OrderGenerator implements Runnable{
 		this.orders=orders;
 		this.type=type;
 	}
+	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		Random r1=new Random();
 		Random r2=new Random();
+		Random investor=new Random();
 		while(true) {
 			try {
 			Double price=b2p(r2.nextBoolean())*20*r1.nextDouble()+200D;
 			Order o1=new Order();
-			o1.setInvestorId(0L);
+			o1.setInvestorId((long) investor.nextInt(5));
 			o1.setStockId(0L);
 			o1.setShare(100L);
 			o1.setPrice(price);

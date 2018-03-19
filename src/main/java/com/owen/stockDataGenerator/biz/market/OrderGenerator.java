@@ -4,15 +4,18 @@ import java.util.Queue;
 import java.util.Random;
 
 import com.owen.stockDataGenerator.model.market.Order;
+import com.owen.stockDataGenerator.model.market.Stock;
 
 public class OrderGenerator implements Runnable{
 
 	private Queue<Order> orders;
 	private Integer type;
+	private Stock stock;
 
-	public OrderGenerator(Queue<Order> orders,Integer type) {
+	public OrderGenerator(Queue<Order> orders,Integer type,Stock stock) {
 		this.orders=orders;
 		this.type=type;
+		this.stock=stock;
 	}
 	
 
@@ -24,10 +27,10 @@ public class OrderGenerator implements Runnable{
 		Random investor=new Random();
 		while(true) {
 			try {
-			Double price=b2p(r2.nextBoolean())*20*r1.nextDouble()+200D;
+			Double price=b2p(r2.nextBoolean())*stock.getPrice()*0.1*r1.nextDouble()+stock.getPrice();
 			Order o1=new Order();
 			o1.setInvestorId((long) investor.nextInt(5));
-			o1.setStockId(0L);
+			o1.setStockId(stock.getId());
 			o1.setShare(100L);
 			o1.setPrice(price);
 			o1.setType(type);

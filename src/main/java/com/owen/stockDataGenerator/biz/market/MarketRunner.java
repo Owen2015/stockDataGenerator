@@ -8,6 +8,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import com.owen.stockDataGenerator.model.market.Market;
 import com.owen.stockDataGenerator.model.market.Order;
+import com.owen.stockDataGenerator.model.market.Stock;
 import com.owen.stockDataGenerator.model.market.TradeBoardElement;
 
 public class MarketRunner implements Runnable {
@@ -18,45 +19,30 @@ public class MarketRunner implements Runnable {
 		this.tradeBoard=tradeBoard;
 	}
 
-
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		Market market=new Market();
 		market=MarketInitializer.init(market);
+		List<Stock> stocks=market.getStocks();
 		
-		Queue<Order> buyOrders= createPriorityBlockQueue(1,-1);
-		Queue<Order> sellOrders= createPriorityBlockQueue(-1,1);
-		generateOrder(buyOrders,sellOrders);
-		
-		Order buyOrder;
-		Order sellOrder;
-		
-		TradeBoardElement tb=new TradeBoardElement();
-		tradeBoard.add(tb);
-		while(true) {
-
-			buyOrder=buyOrders.peek();
-			sellOrder=sellOrders.peek();
-			if(sellOrder.getPrice()<=buyOrder.getPrice()) {
-				
-				tb.setStockId(buyOrder.getStockId());
-				tb.setStockPrice((buyOrder.getPrice()+sellOrder.getPrice())/2);
-				buyOrders.poll();
-				sellOrders.poll();
-				
-			}
+		Stock stock;
+		Queue<Order> buyOrders;
+		Queue<Order> sellOrders;
+		TradeBoardElement tradeBoardElement;
+		for(int i=0;i<stocks.size();i++) {
+			stock=stocks.get(i);
+			buyOrders=createPriorityBlockQueue(1,-1);
+			sellOrders=createPriorityBlockQueue(-1,1);
+			generateOrder(buyOrders,Order.BUY,stock);
+			generateOrder(sellOrders,Order.SELL,stock);
 			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			tradeBoardElement=new TradeBoardElement();
+			tradeBoard.add(tradeBoardElement);
+			handleOrder(buyOrders,sellOrders,tradeBoardElement);
 		}
-		
 	}
+
+
 	
    /** create PriorityBloking queue, parameter i, j use to control the sorting order of the queue. 
 	   (-1,1) means ascendant order, use for sell order
@@ -76,13 +62,9 @@ public class MarketRunner implements Runnable {
 
 	}
 	
-	private void generateOrder(Queue<Order> buyOrders,Queue<Order> sellOrders) {
-		
-		Thread buyOrderGenerator=new Thread(new OrderGenerator(buyOrders,0));
-		Thread sellOrderGenerator=new Thread(new OrderGenerator(sellOrders,1));
-		
-		buyOrderGenerator.start();
-		sellOrderGenerator.start();
+	private void generateOrder(Queue<Order> orders,int orderType,Stock stock) {
+		Thread runOrder=new Thread(new OrderGenerator(orders,orderType,stock));
+		runOrder.start();
 		try {
 			Thread.sleep(1000L);
 		} catch (InterruptedException e) {
@@ -91,4 +73,14 @@ public class MarketRunner implements Runnable {
 		}
 	}
 
+	private void handleOrder(Queue<Order> buyOrders,Queue<Order> sellOrders,TradeBoardElement tradeBoardElement) {
+		Thread orderHandler=new Thread(new OrderHandler(buyOrders,sellOrders,tradeBoardElement));
+		orderHandler.start();
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

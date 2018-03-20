@@ -27,7 +27,6 @@ public class OrderGenerator implements Runnable{
 		Random investor=new Random();
 		Random volume=new Random();
 		while(true) {
-			try {
 			Double price=b2p(r2.nextBoolean())*stock.getPrice()*0.1*r1.nextDouble()+stock.getPrice();
 			Order o1=new Order();
 			o1.setInvestorId((long) investor.nextInt(5));
@@ -37,6 +36,7 @@ public class OrderGenerator implements Runnable{
 			o1.setType(type);
 			o1.setStockName(stock.getName());
 			orders.add(o1);
+			try {
 			Thread.sleep(1000L);
 			
 			} catch (InterruptedException e) {

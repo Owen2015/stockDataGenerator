@@ -21,25 +21,23 @@ public class OrderHandler implements Runnable{
 		Order buyOrder;
 		Order sellOrder;
 		while(true) {
-			buyOrder=buyOrders.peek();
-			sellOrder=sellOrders.peek();
-			if(sellOrder.getPrice()<=buyOrder.getPrice()) {
+			if(!buyOrders.isEmpty()&&!sellOrders.isEmpty()) {
 				
-				tradeBoardElement.setStockId(buyOrder.getStockId());
-				tradeBoardElement.setStockPrice((buyOrder.getPrice()+sellOrder.getPrice())/2);
-				tradeBoardElement.setVolume(buyOrder.getShare());
-				tradeBoardElement.setStockName(buyOrder.getStockName());
-				buyOrders.poll();
-				sellOrders.poll();
-				
+				buyOrder=buyOrders.peek();
+				sellOrder=sellOrders.peek();
+				if(sellOrder.getPrice()<=buyOrder.getPrice()) {
+					
+					tradeBoardElement.setStockId(buyOrder.getStockId());
+					tradeBoardElement.setStockPrice((buyOrder.getPrice()+sellOrder.getPrice())/2);
+					tradeBoardElement.setVolume(buyOrder.getShare());
+					tradeBoardElement.setStockName(buyOrder.getStockName());
+					buyOrders.poll();
+					sellOrders.poll();
+					
+				}
 			}
 			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 		}
 	}
 

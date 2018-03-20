@@ -65,22 +65,11 @@ public class MarketRunner implements Runnable {
 	private void generateOrder(Queue<Order> orders,int orderType,Stock stock) {
 		Thread runOrder=new Thread(new OrderGenerator(orders,orderType,stock));
 		runOrder.start();
-		try {
-			Thread.sleep(1000L);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	private void handleOrder(Queue<Order> buyOrders,Queue<Order> sellOrders,TradeBoardElement tradeBoardElement) {
 		Thread orderHandler=new Thread(new OrderHandler(buyOrders,sellOrders,tradeBoardElement));
 		orderHandler.start();
-		try {
-			Thread.sleep(1000L);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }
